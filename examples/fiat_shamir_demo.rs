@@ -2,7 +2,7 @@
 //!
 //! This shows the key concepts from Lyubashevsky's 2009 paper.
 
-use fiat_shamir_aborts::*;
+use lattice_crypto::*;
 use rand::SeedableRng;
 use rand_chacha::ChaCha20Rng;
 

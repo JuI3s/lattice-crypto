@@ -47,15 +47,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "fiat_shamir_aborts"
-version = "0.1.0"
-dependencies = [
- "rand",
- "rand_chacha",
- "sha2",
-]
-
-[[package]]
 name = "generic-array"
 version = "0.14.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -74,6 +65,15 @@ dependencies = [
  "cfg-if",
  "libc",
  "wasi",
+]
+
+[[package]]
+name = "lattice-crypto"
+version = "0.1.0"
+dependencies = [
+ "rand",
+ "rand_chacha",
+ "sha2",
 ]
 
 [[package]]

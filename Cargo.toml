@@ -1,8 +1,11 @@
 [package]
-name = "fiat_shamir_aborts"
+name = "lattice-crypto"
 version = "0.1.0"
 edition = "2021"
-description = "Implementation of Fiat-Shamir with Aborts (Lyubashevsky 2009)"
+description = "A general-purpose library for lattice-based cryptography, including polynomial commitments and zero-knowledge proof support"
+authors = ["Your Name <your.email@example.com>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/yourusername/lattice-crypto"
 
 [dependencies]
 rand = "0.8"
