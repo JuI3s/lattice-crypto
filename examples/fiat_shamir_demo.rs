@@ -140,10 +140,7 @@ fn demo_signature(rng: &mut ChaCha20Rng) {
 
     info!("");
     info!("Statistics:");
-    info!(
-        "  Abort rate: {:.1}%",
-        scheme.stats().abort_rate() * 100.0
-    );
+    info!("  Abort rate: {:.1}%", scheme.stats().abort_rate() * 100.0);
     info!("");
 }
 
