@@ -11,7 +11,9 @@ repository = "https://github.com/yourusername/lattice-crypto"
 rand = "0.8"
 rand_chacha = "0.3"
 sha2 = "0.10"
+log = "0.4"
 
 [dev-dependencies]
 rand_chacha = "0.3"
+env_logger = "0.11"
 

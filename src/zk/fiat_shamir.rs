@@ -334,6 +334,7 @@ impl SignatureScheme {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use log::debug;
     use rand::SeedableRng;
     use rand_chacha::ChaCha20Rng;
 
@@ -374,8 +375,8 @@ mod tests {
         // Verify should pass
         assert!(scheme.verify(&keypair.pk, &commitment, &challenge, &z));
 
-        println!("Identification stats: {:?}", scheme.stats);
-        println!("Abort rate: {:.2}%", scheme.stats.abort_rate() * 100.0);
+        debug!("Identification stats: {:?}", scheme.stats);
+        debug!("Abort rate: {:.2}%", scheme.stats.abort_rate() * 100.0);
     }
 
     #[test]
@@ -435,9 +436,9 @@ mod tests {
         let mean = sum as f64 / (z_samples.len() * params.n) as f64;
         assert!(mean.abs() < 5.0, "Mean should be close to 0, got {}", mean);
 
-        println!("Collected {} samples", z_samples.len());
-        println!("Mean coefficient: {:.2}", mean);
-        println!("Abort rate: {:.2}%", scheme.stats.abort_rate() * 100.0);
+        debug!("Collected {} samples", z_samples.len());
+        debug!("Mean coefficient: {:.2}", mean);
+        debug!("Abort rate: {:.2}%", scheme.stats.abort_rate() * 100.0);
     }
 
     #[test]
@@ -462,7 +463,7 @@ mod tests {
         let wrong_message = b"Wrong message";
         assert!(!scheme.verify(&keypair.pk, wrong_message, &sig));
 
-        println!("Signature stats: {:?}", scheme.stats());
+        debug!("Signature stats: {:?}", scheme.stats());
     }
 
     #[test]
@@ -515,11 +516,11 @@ mod tests {
             loose_scheme.prove(&mut rng, &loose_kp, 100);
         }
 
-        println!(
+        debug!(
             "Tight params abort rate: {:.2}%",
             tight_scheme.stats.abort_rate() * 100.0
         );
-        println!(
+        debug!(
             "Loose params abort rate: {:.2}%",
             loose_scheme.stats.abort_rate() * 100.0
         );
@@ -603,8 +604,8 @@ mod tests {
             .sum::<f64>()
             / z2_samples.len() as f64;
 
-        println!("Key 1 - Mean: {:.2}, Variance: {:.2}", mean1, var1);
-        println!("Key 2 - Mean: {:.2}, Variance: {:.2}", mean2, var2);
+        debug!("Key 1 - Mean: {:.2}, Variance: {:.2}", mean1, var1);
+        debug!("Key 2 - Mean: {:.2}, Variance: {:.2}", mean2, var2);
 
         // The means and variances should be similar (both close to uniform)
         assert!(
