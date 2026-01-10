@@ -269,12 +269,12 @@ mod test_config {
     // Small prime field for testing: q ≡ 5 (mod 8)
     // Note: rust-analyzer may show a proc-macro panic error here, but this is a false positive.
     // The code compiles and runs correctly. Restart rust-analyzer if needed.
+    #[allow(non_local_definitions)]
     #[derive(MontConfig)]
     #[modulus = "65557"]
     #[generator = "2"]
     #[small_subgroup_base = "0"]
     #[small_subgroup_power = "0"]
-    #[allow(non_local_definitions)]
     pub struct TestFqConfig;
 
     pub type TestFq = Fp64<MontBackend<TestFqConfig, 1>>;

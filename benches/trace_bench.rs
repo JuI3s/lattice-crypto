@@ -6,12 +6,12 @@ use lattice_crypto::lattice::trace::{
 use rand::thread_rng;
 
 // Test field configuration for benchmarking
+#[allow(non_local_definitions)]
 #[derive(MontConfig)]
 #[modulus = "65557"]
 #[generator = "2"]
 #[small_subgroup_base = "0"]
 #[small_subgroup_power = "0"]
-#[allow(non_local_definitions)]
 struct BenchFqConfig;
 
 type BenchFq = Fp64<MontBackend<BenchFqConfig, 1>>;
