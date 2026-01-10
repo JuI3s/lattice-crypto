@@ -1,6 +1,6 @@
 # lattice-crypto
 
-Lattice-based cryptography primitives.
+Lattice-based cryptography primitives. More details and references are in my private notes.
 
 ## Tower Trace (32× speedup)
 
