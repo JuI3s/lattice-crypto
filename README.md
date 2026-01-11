@@ -15,7 +15,7 @@ Exploits index-2 subgroup tower for 2-groups. Measured 31.7× speedup (d=1024, k
 
 ## Rejection Sampling
 
-Uniform sampling over Z_q for NTT-unfriendly primes.
+Rejection sampling for zero-knowledge applications.
 
 ## Usage
 
