@@ -6,7 +6,7 @@ Documentation available at https://jui3s.github.io/lattice-crypto/.
 
 > **⚠️ Work in progress.** This library is experimental and under active development—APIs may change without notice. Docs drafted with AI assistance and reviewed by author.
 
-## Tower Trace (32× speedup)
+## Galois Tower Trace (32× speedup)
 
 Trace over Galois subgroup $H = \langle \sigma_{-1}, \sigma_{4k+1} \rangle$:
 
