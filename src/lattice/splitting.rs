@@ -66,7 +66,7 @@ impl SplittingParams {
     /// When q ≡ 2^j + 1 (mod 2^{j+1}), we get 2^{k-j} factors of degree 2^j
     pub fn power_of_two(n: usize, num_splits: usize, tau: u64, omega: usize, modulus: u64) -> Self {
         assert!(n.is_power_of_two(), "n must be a power of two");
-        assert!(n % num_splits == 0, "num_splits must divide n");
+        assert!(n.is_multiple_of(num_splits), "num_splits must divide n");
         assert!(omega <= n, "omega cannot exceed n");
         Self {
             n,
@@ -111,7 +111,7 @@ impl SplittingParams {
 
         // Find largest j where q ≡ 1 (mod 2^j)
         // This is: j = trailing_zeros(q - 1) for odd q
-        if modulus % 2 == 0 {
+        if modulus.is_multiple_of(2) {
             return 1; // Even modulus, no splitting
         }
 
@@ -899,7 +899,7 @@ mod tests {
 
         for _ in 0..1000 {
             let x = sample_nonzero_bounded(&mut rng, 5);
-            assert!(x >= -5 && x <= 5);
+            assert!((-5..=5).contains(&x));
             assert_ne!(x, 0);
         }
     }
