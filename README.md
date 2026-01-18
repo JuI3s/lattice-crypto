@@ -2,6 +2,8 @@
 
 Lattice-based cryptography primitives. More details and references are in my private notes.
 
+> **Note:** Documentation is under construction, written with LLM assistance.
+
 ## Tower Trace (32× speedup)
 
 Trace over Galois subgroup $H = \langle \sigma_{-1}, \sigma_{4k+1} \rangle$:
