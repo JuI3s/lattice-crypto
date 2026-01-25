@@ -1,5 +1,8 @@
 //! Sampling from partially split sets for lattice-based zero-knowledge proofs
 //!
+//! Paper:
+//! https://eprint.iacr.org/2017/523
+//!
 //! Implementation based on "Short, invertible elements in partially splitting
 //! cyclotomic rings and applications to lattice-based zero-knowledge proofs"
 //! by Lyubashevsky, Seiler (2018).
@@ -542,12 +545,14 @@ impl ChallengeSet {
 // ============================================================================
 
 /// Sample k distinct positions from [0, n)
-/// TODO: Check this is correct.
 fn sample_distinct_positions<R: Rng>(rng: &mut R, n: usize, k: usize) -> Vec<usize> {
     assert!(k <= n);
 
+    // Do Fisher-Yates for large k (k > n/2), rejection sampling for small k (k <= n/2)
+    // Note: The output of the rejection sampling branch is unordered (HashSet iteration order is arbitrary), while the Fisher-Yates branch produces positions in a random order
     if k > n / 2 {
         // For large k, use Fisher-Yates on full range
+        // https://crypto.stackexchange.com/questions/41811/correct-use-of-fisher-yates-for-subsequent-selections
         let mut positions: Vec<usize> = (0..n).collect();
         for i in 0..k {
             let j = rng.gen_range(i..n);
