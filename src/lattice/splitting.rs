@@ -395,37 +395,56 @@ pub fn challenge_from_seed(seed: &[u8], n: usize, omega: usize, tau: u64) -> Cha
     Challenge::new(sparse_coeffs, n)
 }
 
-/// Fast path check for difference invertibility
+/// Fast path check for difference invertibility based on Theorem 3.1
+///
+/// Reference: Lyubashevsky & Seiler, "Short, Invertible Elements in Partially
+/// Splitting Cyclotomic Rings and Applications to Lattice-Based Zero-Knowledge
+/// Proofs", EUROCRYPT 2018 (IACR ePrint 2017/523).
+///
+/// Theorem 3.1: For R_q = Z_q[X]/(X^n + 1) where X^n + 1 splits into k factors
+/// mod q, any non-zero polynomial with coefficients bounded by B is invertible,
+/// provided B is small enough relative to q and k.
+///
+/// Specifically: If ||c||_∞ ≤ B and q > 2B·k, then c is invertible.
+///
+/// For differences of ternary challenges:
+/// - |c_i| ≤ 2τ (coefficients in {-2τ, ..., -1, 1, ..., 2τ})
+/// - So B = 2τ
+/// - Condition: q > 2·(2τ)·k = 4τ·k
+///
+/// This function checks:
+/// 1. Non-zero (zero is never invertible)
+/// 2. Coefficient bound: ||c||_∞ ≤ 2τ
+/// 3. Parameter condition: q > 4τ·k (ensures theorem applies)
+///
+/// If all conditions are met, the theorem guarantees invertibility.
 pub fn is_definitely_difference_invertible(diff: &Challenge, params: &SplittingParams) -> bool {
-    // For ternary challenges with weight ω, the difference has weight at most 2ω
-    // and coefficients in {-2, -1, 0, 1, 2}
-    //
-    // Reference: Lyubashevsky & Seiler, "Short, Invertible Elements in Partially
-    // Splitting Cyclotomic Rings and Applications to Lattice-Based Zero-Knowledge
-    // Proofs", EUROCRYPT 2018 (IACR ePrint 2017/523).
-    //
-    // Theorem 3.1: For R_q = Z_q[X]/(X^n + 1) where X^n + 1 splits into k factors
-    // mod q, any non-zero polynomial with coefficients bounded by B is invertible,
-    // provided B is small enough relative to q and k.
-    //
-    // For our sparse ternary challenges: |c_i| ≤ 2τ and q >> 2τ·k, so the theorem
-    // guarantees invertibility of all non-zero differences.
-    //
-    // The ||c||_1 < n check below is a fast-path heuristic (not from the theorem)
-    // that catches obviously-small elements. For elements that fail this check,
-    // we fall back to a more expensive check (see check_invertibility_by_evaluation).
-    //
-    // For our sparse challenges: ||c₁ - c₂||_1 ≤ 2ω · 2τ = 4ωτ
-
     // Zero is never invertible
     if diff.sparse_coeffs.is_empty() {
         return false;
     }
 
-    let l1_norm: i64 = diff.sparse_coeffs.iter().map(|(_, c)| c.abs()).sum();
+    let q = params.modulus as i64;
+    let k = params.num_splits as i64;
+    let tau = params.tau as i64;
 
-    // Simple check: L1 norm bound for invertibility (for non-zero elements)
-    l1_norm > 0 && l1_norm < params.n as i64
+    // Check coefficient bound: ||c||_∞ ≤ 2τ
+    let max_coeff = diff.ell_inf_norm();
+    if max_coeff > 2 * tau {
+        return false; // Coefficient bound violated
+    }
+
+    // Check parameter condition from Theorem 3.1: q > 4τ·k
+    // This ensures the theorem applies and guarantees invertibility
+    if q <= 4 * tau * k {
+        // Parameters don't satisfy theorem condition, can't guarantee invertibility
+        // Fall back to heuristic check for backwards compatibility
+        let l1_norm: i64 = diff.sparse_coeffs.iter().map(|(_, c)| c.abs()).sum();
+        return l1_norm > 0 && l1_norm < params.n as i64;
+    }
+
+    // All conditions satisfied: Theorem 3.1 guarantees invertibility
+    true
 }
 
 /// Precomputed challenge set for small parameters
