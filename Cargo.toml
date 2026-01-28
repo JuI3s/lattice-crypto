@@ -5,7 +5,7 @@ edition = "2021"
 description = "A general-purpose library for lattice-based cryptography, including polynomial commitments and zero-knowledge proof support"
 authors = ["Julius Zhang <juliuszh@alumni.stanford.edu>"]
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/yourusername/lattice-crypto"
+repository = "https://github.com/JuI3s/lattice-crypto"
 
 [dependencies]
 rand = "0.8"
