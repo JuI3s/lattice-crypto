@@ -1,1 +1,0 @@
-Notes on optimization and conceptual framework.
