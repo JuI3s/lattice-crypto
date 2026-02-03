@@ -6,7 +6,7 @@ Documentation available at https://jui3s.github.io/lattice-crypto/.
 
 > **⚠️ Work in progress.** This library is experimental and under active development—APIs may change without notice. 
 
-## Notes
+## Background
 
 - Conceptual framework and optimization — [notes/](notes/)
 
