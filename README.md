@@ -8,7 +8,7 @@ Documentation available at https://jui3s.github.io/lattice-crypto/.
 
 ## Notes
 
-- [notes/](notes/) Optimization and conceptual framework.
+- Conceptual framework and optimization — [notes/](notes/)
 
 ## Features
 
