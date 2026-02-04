@@ -2,10 +2,6 @@
 
 Lattice-based cryptography primitives. 
 
-Documentation available at https://jui3s.github.io/lattice-crypto/.
-
-> **⚠️ Work in progress.** This library is experimental and under active development—APIs may change without notice. 
-
 ## Background
 
 - Conceptual framework and optimization — [math/](math/)
@@ -28,6 +24,12 @@ Exploits index-2 subgroup tower for 2-groups. Measured 31.7× speedup (d=1024, k
 ### Rejection Sampling
 
 Rejection sampling for zero-knowledge applications.
+
+## Documentation
+
+Documentation available at https://jui3s.github.io/lattice-crypto/.
+
+> **⚠️ Work in progress.** This library is experimental and under active development—APIs may change without notice. 
 
 ## Usage
 
