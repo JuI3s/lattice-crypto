@@ -4,6 +4,7 @@
 //! including vectors and matrices over Z_q.
 
 pub mod matrix;
+pub mod pairing;
 pub mod splitting;
 pub mod trace;
 pub mod vector;
