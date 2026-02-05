@@ -1,18 +1,42 @@
-//! Trace pairing on cyclotomic rings
+//! Trace pairing on cyclotomic rings.
 //!
-//! Implementation of the trace pairing from [trace-pairing.pdf], which shows that
-//! the packing map of [NOZ26] (Hachi) has an associated inner product formula.
+//! Recovers inner products from packed ring elements via the trace form.
+//! Theory: [`math/trace-pairing.pdf`].
 //!
-//! # Key Results
+//! # Example
 //!
-//! For H = ⟨σ_{-1}, σ_{4k+1}⟩ and the basis B = {X^i}_{0 ≤ i < d/2k} ∪ {X^{d/2+i}}_{0 ≤ i < d/2k}:
+//! ```
+//! use lattice_crypto::lattice::pairing::{
+//!     TracePairingParams, pack, inner_product_from_trace, direct_inner_product,
+//! };
+//! use lattice_crypto::lattice::trace::GaloisSubgroup;
+//! use ark_ff::Field;
 //!
-//! **Proposition 2**: Tr_H(e_a · σ_{-1}(e_b)) = (d/k) · δ_{ab}
+//! // Use a small test field (Fp64 with prime modulus)
+//! use ark_ff::fields::models::fp::{Fp64, MontBackend, MontConfig};
+//! #[derive(MontConfig)]
+//! #[modulus = "65537"]
+//! #[generator = "3"]
+//! struct FqConfig;
+//! type Fq = Fp64<MontBackend<FqConfig, 1>>;
 //!
-//! **Corollary 3 (Self-dual inner product identity)**:
-//!   Tr_H(ψ(a) · σ_{-1}(ψ(b))) = (d/k) · ⟨a, b⟩
+//! // Setup parameters (small example: d=32, k=4, n=8)
+//! let params = TracePairingParams::new(32, 4);
+//! let h = GaloisSubgroup::new(params.d, params.k);
 //!
-//! This allows recovering the inner product ⟨a, b⟩ from packed ring elements via the trace.
+//! // Pack vectors into ring elements
+//! let a: Vec<Fq> = (0..params.n as u64).map(Fq::from).collect();
+//! let b: Vec<Fq> = (1..=params.n as u64).map(Fq::from).collect();
+//!
+//! let packed_a = pack(&a, &params);
+//! let packed_b = pack(&b, &params);
+//!
+//! // Recover ⟨a, b⟩ via trace pairing
+//! let recovered = inner_product_from_trace(&packed_a, &packed_b, &params, &h);
+//! let expected = direct_inner_product(&a, &b);
+//!
+//! assert_eq!(recovered, expected);
+//! ```
 
 use super::trace::{trace_tower, CyclotomicRingElement, GaloisSubgroup};
 use ark_ff::Field;
