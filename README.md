@@ -1,4 +1,4 @@
-# etale
+# Étale
 
 Lattice-based cryptography primitives. Every security claim in this library is proved and cited. No folklore.
 
